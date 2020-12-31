@@ -15,9 +15,14 @@ namespace MartinPosso_Authentication.Controllers
         private ShopDB db = new ShopDB();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            var products = db.Products.Include(p => p.Category).Include(p => p.Supplier);
+            var products = from s in db.Products select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.ProductName.StartsWith(searchString));
+                return View(products.ToList());
+            }
             return View(products.ToList());
         }
 
