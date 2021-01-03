@@ -13,15 +13,35 @@ namespace MartinPosso_Authentication.Controllers
     public class ProductsController : Controller
     {
         private ShopDB db = new ShopDB();
-
+        
         // GET: Products
-        public ActionResult Index(string searchString)
+        [Authorize]
+        public ActionResult Index(string searchString, string sortOrder)
         {
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CategorySortParm = sortOrder == "CategoryName" ? "cate_desc" : "Category";
+
             var products = from s in db.Products select s;
             if (!String.IsNullOrEmpty(searchString))
             {
                 products = products.Where(s => s.ProductName.StartsWith(searchString));
                 return View(products.ToList());
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    products = products.OrderByDescending(s => s.ProductName);
+                    break;
+                case "cate_desc":
+                    products = products.OrderByDescending(s => s.Category.CategoryName);
+                    break;
+                case "Category":
+                    products = products.OrderBy(s => s.Category.CategoryName);
+                    break;
+                default:
+                    products = products.OrderBy(s => s.ProductName);
+                    break;
             }
             return View(products.ToList());
         }
@@ -54,7 +74,6 @@ namespace MartinPosso_Authentication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public ActionResult Create([Bind(Include = "ProductID,ProductName,Description,Stock,ProductCode,SupplierID,CategoryID,Image")] Product product)
         {
             if (ModelState.IsValid)

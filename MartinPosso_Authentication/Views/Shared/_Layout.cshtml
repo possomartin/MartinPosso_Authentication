@@ -17,7 +17,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Ez-Botz!", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -25,12 +25,15 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 
-                    <li class="dropdown">
+                    <li class="dropdown-toggle">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" rolo="button" aria-expanded="true">Administracion</a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("Products", "Index", "Products")</li>
                             <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
                             <li>@Html.ActionLink("Suppliers", "Index", "Suppliers")</li>
+                            <li>@Html.ActionLink("Orders", "Index", "Orders")</li>
+                            <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                            <li>@Html.ActionLink("People", "Index", "People")</li>
                         </ul>
                     </li>
 

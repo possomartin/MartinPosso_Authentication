@@ -15,11 +15,31 @@ namespace MartinPosso_Authentication.Controllers
         private ShopDB db = new ShopDB();
 
         // GET: Categories
-        public ActionResult Index()
+        [Authorize]
+        public ActionResult Index(string searchString, string sortOrder)
         {
-            return View(db.Categories.ToList());
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            var Categories = from s in db.Categories select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Categories = Categories.Where(s => s.CategoryName.StartsWith(searchString));
+                return View(Categories.ToList());
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    Categories = Categories.OrderByDescending(s => s.CategoryName);
+                    break;
+                default:
+                    Categories = Categories.OrderBy(s => s.CategoryName);
+                    break;
+            }
+            return View(Categories.ToList());
         }
 
+
+        [Authorize]
         // GET: Categories/Details/5
         public ActionResult Details(int? id)
         {
@@ -35,6 +55,7 @@ namespace MartinPosso_Authentication.Controllers
             return View(category);
         }
 
+        [Authorize]
         // GET: Categories/Create
         public ActionResult Create()
         {
@@ -59,6 +80,7 @@ namespace MartinPosso_Authentication.Controllers
             return View(category);
         }
 
+        [Authorize]
         // GET: Categories/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -79,6 +101,7 @@ namespace MartinPosso_Authentication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "CategoryID,CategoryName,description")] Category category)
         {
             if (ModelState.IsValid)
@@ -91,6 +114,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: Categories/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)

@@ -15,17 +15,16 @@
     @Html.TextBox("searchString")
     <input type="submit" name="submit" value="Search" />
 }
-
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Category.CategoryName)
+            @Html.ActionLink("CategoryName", "Index", new { sortOrder = ViewBag.CategorySortParm })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Supplier.SupplierName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProductName)
+            @Html.ActionLink("ProductName", "Index", new { sortOrder = ViewBag.NameSortParm })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)

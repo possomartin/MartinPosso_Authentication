@@ -10,84 +10,75 @@ using MartinPosso_Authentication.Models;
 
 namespace MartinPosso_Authentication.Controllers
 {
-    public class SuppliersController : Controller
+    public class UsersController : Controller
     {
         private ShopDB db = new ShopDB();
 
         [Authorize]
-        // GET: Suppliers
+        // GET: Users
         public ActionResult Index(string searchString, string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.AddressSortParm = sortOrder == "Address" ? "ad_desc" : "Address";
 
-            var Suppliers = from s in db.Suppliers select s;
+            var user = from s in db.Users select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                Suppliers = Suppliers.Where(s => s.SupplierName.StartsWith(searchString));
-                return View(Suppliers.ToList());
+                user = user.Where(s => s.UserName.StartsWith(searchString));
+                return View(user.ToList());
             }
-
             switch (sortOrder)
             {
                 case "name_desc":
-                    Suppliers = Suppliers.OrderByDescending(s => s.SupplierName);
-                    break;
-                case "ad_desc":
-                    Suppliers = Suppliers.OrderByDescending(s => s.Address);
-                    break;
-                case "Address":
-                    Suppliers = Suppliers.OrderBy(s => s.Address);
+                    user = user.OrderByDescending(s => s.UserName);
                     break;
                 default:
-                    Suppliers = Suppliers.OrderBy(s => s.SupplierName);
+                    user = user.OrderBy(s => s.UserName);
                     break;
             }
-            return View(Suppliers.ToList());
+            return View(user.ToList());
         }
-        
 
-        // GET: Suppliers/Details/5
+        // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Supplier supplier = db.Suppliers.Find(id);
-            if (supplier == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(supplier);
+            return View(user);
         }
 
-        // GET: Suppliers/Create
+        // GET: Users/Create
         [Authorize]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Suppliers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Users/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "SupplierID,SupplierName,Address,Email")] Supplier supplier)
+        public ActionResult Create([Bind(Include = "UserID,UserName,Email,Password")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Suppliers.Add(supplier);
+                db.Users.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(supplier);
+            return View(user);
         }
 
-        // GET: Suppliers/Edit/5
+        // GET: Users/Edit/5
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -95,55 +86,54 @@ namespace MartinPosso_Authentication.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Supplier supplier = db.Suppliers.Find(id);
-            if (supplier == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(supplier);
+            return View(user);
         }
 
-        // POST: Suppliers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Users/Edit/5
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "SupplierID,SupplierName,Address,Email")] Supplier supplier)
+        public ActionResult Edit([Bind(Include = "UserID,UserName,Email,Password")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(supplier).State = EntityState.Modified;
+                db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(supplier);
+            return View(user);
         }
 
-        // GET: Suppliers/Delete/5
-        [Authorize]
+        // GET: Users/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Supplier supplier = db.Suppliers.Find(id);
-            if (supplier == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(supplier);
+            return View(user);
         }
 
-        // POST: Suppliers/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            Supplier supplier = db.Suppliers.Find(id);
-            db.Suppliers.Remove(supplier);
+            User user = db.Users.Find(id);
+            db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -10,84 +10,82 @@ using MartinPosso_Authentication.Models;
 
 namespace MartinPosso_Authentication.Controllers
 {
-    public class SuppliersController : Controller
+    public class PeopleController : Controller
     {
         private ShopDB db = new ShopDB();
-
         [Authorize]
-        // GET: Suppliers
         public ActionResult Index(string searchString, string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.AddressSortParm = sortOrder == "Address" ? "ad_desc" : "Address";
+            ViewBag.LastNameSortParm = sortOrder == "LastName" ? "last_desc" : "LastName";
 
-            var Suppliers = from s in db.Suppliers select s;
+            var person = from s in db.People select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                Suppliers = Suppliers.Where(s => s.SupplierName.StartsWith(searchString));
-                return View(Suppliers.ToList());
+                person = person.Where(s => s.PersonName.StartsWith(searchString));
+                return View(person.ToList());
             }
-
             switch (sortOrder)
             {
                 case "name_desc":
-                    Suppliers = Suppliers.OrderByDescending(s => s.SupplierName);
+                    person = person.OrderByDescending(s => s.PersonName);
                     break;
-                case "ad_desc":
-                    Suppliers = Suppliers.OrderByDescending(s => s.Address);
+                case "last_desc":
+                    person = person.OrderByDescending(s => s.LastName);
                     break;
-                case "Address":
-                    Suppliers = Suppliers.OrderBy(s => s.Address);
+                case "LastName":
+                    person = person.OrderBy(s => s.LastName);
                     break;
                 default:
-                    Suppliers = Suppliers.OrderBy(s => s.SupplierName);
+                    person = person.OrderBy(s => s.PersonName);
                     break;
             }
-            return View(Suppliers.ToList());
+            return View(person.ToList());
         }
-        
 
-        // GET: Suppliers/Details/5
+        // GET: People/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Supplier supplier = db.Suppliers.Find(id);
-            if (supplier == null)
+            Person person = db.People.Find(id);
+            if (person == null)
             {
                 return HttpNotFound();
             }
-            return View(supplier);
+            return View(person);
         }
 
-        // GET: Suppliers/Create
+        // GET: People/Create
         [Authorize]
         public ActionResult Create()
         {
+            ViewBag.UserID = new SelectList(db.Users, "UserID", "UserName");
             return View();
         }
 
-        // POST: Suppliers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: People/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "SupplierID,SupplierName,Address,Email")] Supplier supplier)
+        public ActionResult Create([Bind(Include = "PersonID,PersonName,LastName,Address,PhoneNumber,UserID")] Person person)
         {
             if (ModelState.IsValid)
             {
-                db.Suppliers.Add(supplier);
+                db.People.Add(person);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(supplier);
+            ViewBag.UserID = new SelectList(db.Users, "UserID", "UserName", person.UserID);
+            return View(person);
         }
 
-        // GET: Suppliers/Edit/5
+        // GET: People/Edit/5
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -95,55 +93,56 @@ namespace MartinPosso_Authentication.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Supplier supplier = db.Suppliers.Find(id);
-            if (supplier == null)
+            Person person = db.People.Find(id);
+            if (person == null)
             {
                 return HttpNotFound();
             }
-            return View(supplier);
+            ViewBag.UserID = new SelectList(db.Users, "UserID", "UserName", person.UserID);
+            return View(person);
         }
 
-        // POST: Suppliers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: People/Edit/5
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "SupplierID,SupplierName,Address,Email")] Supplier supplier)
+        public ActionResult Edit([Bind(Include = "PersonID,PersonName,LastName,Address,PhoneNumber,UserID")] Person person)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(supplier).State = EntityState.Modified;
+                db.Entry(person).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(supplier);
+            ViewBag.UserID = new SelectList(db.Users, "UserID", "UserName", person.UserID);
+            return View(person);
         }
 
-        // GET: Suppliers/Delete/5
         [Authorize]
+        // GET: People/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Supplier supplier = db.Suppliers.Find(id);
-            if (supplier == null)
+            Person person = db.People.Find(id);
+            if (person == null)
             {
                 return HttpNotFound();
             }
-            return View(supplier);
+            return View(person);
         }
 
-        // POST: Suppliers/Delete/5
+        // POST: People/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            Supplier supplier = db.Suppliers.Find(id);
-            db.Suppliers.Remove(supplier);
+            Person person = db.People.Find(id);
+            db.People.Remove(person);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
