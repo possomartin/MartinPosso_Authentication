@@ -1,47 +1,130 @@
-﻿@{
+﻿@model IEnumerable<MartinPosso_Authentication.Models.Product>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style type="text/css">
-    img{
-        margin:30px;
+    img {
+        margin: 30px;
     }
-    .jumbotron
-    {
-        background:#454545;
+
+    .jumbotron {
+        background: #454545;
         box-shadow: 10px 10px 20px;
+        border-radius: 40px;
         color: #757575;
     }
+
     .fa {
         width: 128px;
         height: 128px;
         border-radius: 50%;
     }
+
     .fa-facebook {
         width: 128px;
-        height:128px;
-        color:#3B5998;
+        height: 128px;
+        color: #3B5998;
     }
 
     .fa-instagram {
-        color:red;
+        color: red;
     }
 
-    .col-md-4{
-        text-align:center;
+    .col-md-4 {
+        text-align: center;
+    }
+
+    .products-table
+    {
+        justify-content:center;
+        box-shadow: #454545 10px 10px 20px;
+        padding: 40px;
+        border-radius: 30px;
+    }
+
+    .row {
+        margin: 50px;
+        border-radius: 30px;
+        box-shadow: #454545 10px 10px 20px;
     }
 </style>
 
 <div class="jumbotron" style="text-align:center;">
-    <img src="~/Assets/Ez Botz!.png" height="128" width="128" style="text-align:center"/>
+    <img src="~/Assets/Ez Botz!.png" height="128" width="128" style="text-align:center" />
     <h1 style="color:#fff;">Ez Botz - Online Shop! Martin Posso, Kevin Coloma, Fernando Orbe</h1>
     <img alt="Image" src="https://www.nevadaart.org/wp-content/uploads/2019/05/2019_MuseumShop_Hero.jpg" width="1000" height="600" />
     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin orci tellus, tristique vel tincidunt sit amet, vulputate a nisl. Donec blandit turpis ac sapien venenatis efficitur. Suspendisse sagittis maximus dapibus. Duis vestibulum nunc vitae dui tristique commodo. Maecenas malesuada tellus vitae magna aliquet, in ornare lacus ultrices. Proin imperdiet blandit nisl tincidunt interdum. Etiam ullamcorper massa neque, vitae interdum sem semper pellentesque.</p>
-    <img src="https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/publications/food-beverage-nutrition/foodnavigator.com/article/2019/07/11/the-store-of-the-future-what-does-it-look-like-and-which-retailers-are-leading-the-charge/9910882-4-eng-GB/The-store-of-the-future-What-does-it-look-like-and-which-retailers-are-leading-the-charge_wrbm_large.jpg"/>
+    <img src="https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/publications/food-beverage-nutrition/foodnavigator.com/article/2019/07/11/the-store-of-the-future-what-does-it-look-like-and-which-retailers-are-leading-the-charge/9910882-4-eng-GB/The-store-of-the-future-What-does-it-look-like-and-which-retailers-are-leading-the-charge_wrbm_large.jpg" />
     <p>Morbi auctor tincidunt enim, nec venenatis quam vehicula a. Donec nibh metus, porttitor quis porta quis, vehicula sodales quam. Ut efficitur, nisi placerat mollis auctor, orci mi tempor urna, sit amet sodales ligula leo sed elit. Quisque porta, mi et porta scelerisque, neque justo pellentesque mi, vitae condimentum est purus gravida nunc. In at ultricies augue, vel congue velit. In commodo aliquet risus vitae molestie. Fusce tempus felis quis justo tristique venenatis. Aliquam nunc felis, rhoncus ut tellus sed, porttitor vehicula augue. Phasellus accumsan elit quis lacus porttitor, et luctus enim commodo. Maecenas lobortis massa suscipit, dapibus mi vitae, auctor purus. Donec pretium feugiat nibh, id sagittis ante aliquam at. Duis sed ante id metus vehicula aliquet ornare in velit. Ut odio justo, auctor pellentesque felis quis, volutpat scelerisque ligula. Quisque varius quam sed placerat pulvinar. Phasellus aliquam sapien at diam varius consectetur.</p>
 </div>
+
+<div class="products-table">
+    @using (Html.BeginForm())
+    {
+        @Html.TextBox("searchString")
+        <input type="submit" name="submit" value="Search" style="background: #3CB19E;
+            color: #fff;
+            margin: 30px;" />
+    }
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supplier.SupplierName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Supplier.SupplierName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
 <div class="row">
     <div class="col-md-4">
         <h2>Get to now us</h2>

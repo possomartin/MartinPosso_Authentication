@@ -54,7 +54,7 @@ namespace MartinPosso_Authentication.Controllers
             return View(order);
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize]
         // GET: Orders/Create
         public ActionResult Create()
         {
@@ -66,9 +66,9 @@ namespace MartinPosso_Authentication.Controllers
         // POST: Orders/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
         public ActionResult Create([Bind(Include = "OrderID,ProductID,PersonID,Price,Quantity")] Order order)
         {
             if (ModelState.IsValid)
