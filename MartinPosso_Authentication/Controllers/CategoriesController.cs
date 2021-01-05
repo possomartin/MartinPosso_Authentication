@@ -15,7 +15,7 @@ namespace MartinPosso_Authentication.Controllers
         private ShopDB db = new ShopDB();
 
         // GET: Categories
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Index(string searchString, string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -39,7 +39,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         // GET: Categories/Details/5
         public ActionResult Details(int? id)
         {
@@ -55,7 +55,7 @@ namespace MartinPosso_Authentication.Controllers
             return View(category);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         // GET: Categories/Create
         public ActionResult Create()
         {
@@ -67,7 +67,7 @@ namespace MartinPosso_Authentication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Create([Bind(Include = "CategoryID,CategoryName,description")] Category category)
         {
             if (ModelState.IsValid)
@@ -80,7 +80,7 @@ namespace MartinPosso_Authentication.Controllers
             return View(category);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         // GET: Categories/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -101,7 +101,7 @@ namespace MartinPosso_Authentication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "CategoryID,CategoryName,description")] Category category)
         {
             if (ModelState.IsValid)
@@ -114,7 +114,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: Categories/Delete/5
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

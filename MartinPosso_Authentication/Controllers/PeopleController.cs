@@ -13,7 +13,7 @@ namespace MartinPosso_Authentication.Controllers
     public class PeopleController : Controller
     {
         private ShopDB db = new ShopDB();
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Index(string searchString, string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -59,7 +59,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: People/Create
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserName");
@@ -71,7 +71,7 @@ namespace MartinPosso_Authentication.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Create([Bind(Include = "PersonID,PersonName,LastName,Address,PhoneNumber,UserID")] Person person)
         {
             if (ModelState.IsValid)
@@ -86,7 +86,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: People/Edit/5
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -107,7 +107,7 @@ namespace MartinPosso_Authentication.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "PersonID,PersonName,LastName,Address,PhoneNumber,UserID")] Person person)
         {
             if (ModelState.IsValid)
@@ -120,7 +120,7 @@ namespace MartinPosso_Authentication.Controllers
             return View(person);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         // GET: People/Delete/5
         public ActionResult Delete(int? id)
         {

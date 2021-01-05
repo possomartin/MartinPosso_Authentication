@@ -14,7 +14,7 @@ namespace MartinPosso_Authentication.Controllers
     {
         private ShopDB db = new ShopDB();
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         // GET: Suppliers
         public ActionResult Index(string searchString, string sortOrder)
         {
@@ -63,7 +63,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: Suppliers/Create
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
@@ -88,7 +88,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: Suppliers/Edit/5
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -108,7 +108,7 @@ namespace MartinPosso_Authentication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "SupplierID,SupplierName,Address,Email")] Supplier supplier)
         {
             if (ModelState.IsValid)
@@ -121,7 +121,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: Suppliers/Delete/5
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -139,7 +139,7 @@ namespace MartinPosso_Authentication.Controllers
         // POST: Suppliers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Supplier supplier = db.Suppliers.Find(id);

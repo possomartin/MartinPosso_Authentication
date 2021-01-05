@@ -15,7 +15,7 @@ namespace MartinPosso_Authentication.Controllers
         private ShopDB db = new ShopDB();
 
         // GET: Orders
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Index(string searchString, string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -38,7 +38,7 @@ namespace MartinPosso_Authentication.Controllers
             return View(Orders.ToList());
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         // GET: Orders/Details/5
         public ActionResult Details(int? id)
         {
@@ -54,7 +54,7 @@ namespace MartinPosso_Authentication.Controllers
             return View(order);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         // GET: Orders/Create
         public ActionResult Create()
         {
@@ -68,7 +68,7 @@ namespace MartinPosso_Authentication.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Create([Bind(Include = "OrderID,ProductID,PersonID,Price,Quantity")] Order order)
         {
             if (ModelState.IsValid)
@@ -84,7 +84,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: Orders/Edit/5
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -106,7 +106,7 @@ namespace MartinPosso_Authentication.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "OrderID,ProductID,PersonID,Price,Quantity")] Order order)
         {
             if (ModelState.IsValid)
@@ -121,7 +121,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: Orders/Delete/5
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

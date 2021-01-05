@@ -14,7 +14,7 @@ namespace MartinPosso_Authentication.Controllers
     {
         private ShopDB db = new ShopDB();
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         // GET: Users
         public ActionResult Index(string searchString, string sortOrder)
         {
@@ -54,7 +54,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: Users/Create
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
@@ -65,7 +65,7 @@ namespace MartinPosso_Authentication.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Create([Bind(Include = "UserID,UserName,Email,Password")] User user)
         {
             if (ModelState.IsValid)
@@ -79,7 +79,7 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         // GET: Users/Edit/5
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -99,7 +99,7 @@ namespace MartinPosso_Authentication.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "UserID,UserName,Email,Password")] User user)
         {
             if (ModelState.IsValid)
@@ -129,7 +129,7 @@ namespace MartinPosso_Authentication.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             User user = db.Users.Find(id);

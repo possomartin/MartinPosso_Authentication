@@ -13,9 +13,9 @@ namespace MartinPosso_Authentication.Controllers
     public class ProductsController : Controller
     {
         private ShopDB db = new ShopDB();
-        
+
         // GET: Products
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Index(string searchString, string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -46,6 +46,8 @@ namespace MartinPosso_Authentication.Controllers
             return View(products.ToList());
         }
 
+        [Authorize(Roles = "admin")]
+
         // GET: Products/Details/5
         public ActionResult Details(int? id)
         {
@@ -60,6 +62,8 @@ namespace MartinPosso_Authentication.Controllers
             }
             return View(product);
         }
+
+        [Authorize(Roles = "admin")]
 
         // GET: Products/Create
         public ActionResult Create()
@@ -88,6 +92,7 @@ namespace MartinPosso_Authentication.Controllers
             return View(product);
         }
 
+        [Authorize(Roles = "admin")]
         // GET: Products/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -110,6 +115,7 @@ namespace MartinPosso_Authentication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "ProductID,ProductName,Description,Stock,ProductCode,SupplierID,CategoryID,Image")] Product product)
         {
             if (ModelState.IsValid)
@@ -122,6 +128,8 @@ namespace MartinPosso_Authentication.Controllers
             ViewBag.SupplierID = new SelectList(db.Suppliers, "SupplierID", "SupplierName", product.SupplierID);
             return View(product);
         }
+
+        [Authorize(Roles = "admin")]
 
         // GET: Products/Delete/5
         public ActionResult Delete(int? id)
@@ -137,7 +145,7 @@ namespace MartinPosso_Authentication.Controllers
             }
             return View(product);
         }
-
+        [Authorize(Roles = "admin")]
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
