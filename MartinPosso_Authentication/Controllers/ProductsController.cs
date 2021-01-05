@@ -14,8 +14,8 @@ namespace MartinPosso_Authentication.Controllers
     {
         private ShopDB db = new ShopDB();
 
-        // GET: Products
         [Authorize(Roles = "admin")]
+        // GET: Products
         public ActionResult Index(string searchString, string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -47,7 +47,6 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         [Authorize(Roles = "admin")]
-
         // GET: Products/Details/5
         public ActionResult Details(int? id)
         {
@@ -64,7 +63,6 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         [Authorize(Roles = "admin")]
-
         // GET: Products/Create
         public ActionResult Create()
         {
@@ -78,6 +76,7 @@ namespace MartinPosso_Authentication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Create([Bind(Include = "ProductID,ProductName,Description,Stock,ProductCode,SupplierID,CategoryID,Image")] Product product)
         {
             if (ModelState.IsValid)
@@ -92,8 +91,8 @@ namespace MartinPosso_Authentication.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "admin")]
         // GET: Products/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -130,7 +129,6 @@ namespace MartinPosso_Authentication.Controllers
         }
 
         [Authorize(Roles = "admin")]
-
         // GET: Products/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -145,10 +143,11 @@ namespace MartinPosso_Authentication.Controllers
             }
             return View(product);
         }
-        [Authorize(Roles = "admin")]
+
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Product product = db.Products.Find(id);

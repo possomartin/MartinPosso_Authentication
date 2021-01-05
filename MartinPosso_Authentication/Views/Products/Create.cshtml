@@ -7,12 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-}
-
-<div class="page-content">
+    
     <div class="form-horizontal">
         <h4>Product</h4>
         <hr />
@@ -79,7 +77,8 @@
             </div>
         </div>
     </div>
-</div>
+}
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
