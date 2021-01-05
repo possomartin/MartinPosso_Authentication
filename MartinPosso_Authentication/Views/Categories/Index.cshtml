@@ -10,12 +10,14 @@
 @using (Html.BeginForm())
 {
     @Html.TextBox("searchString")
-    <input type="submit" name="submit" value="Search" />
+    <input type="submit" name="submit" value="Search" style="background: #3CB19E;
+        color: #fff;
+        margin: 30px;" />
 }
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("CategoryName", "Index", new { sortOrder = ViewBag.NameSortParm})
+            @Html.ActionLink("CategoryName", "Index", new { sortOrder = ViewBag.NameSortParm })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.description)
@@ -25,18 +27,19 @@
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.CategoryName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.description)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }) |
-        @Html.ActionLink("Details", "Details", new { id = item.CategoryID }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID })
-    </td>
-</tr>}
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CategoryID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID })
+            </td>
+        </tr>
+}
 
 </table>
