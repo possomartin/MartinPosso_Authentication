@@ -10,6 +10,7 @@ namespace MartinPosso_Authentication.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(MartinPosso_Authentication.Models.ShopDB context)

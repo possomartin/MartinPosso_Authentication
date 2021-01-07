@@ -15,6 +15,7 @@ namespace MartinPosso_Authentication.Controllers
         private ShopDB db = new ShopDB();
 
         [Authorize(Roles = "admin")]
+
         // GET: Products
         public ActionResult Index(string searchString, string sortOrder)
         {
