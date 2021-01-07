@@ -14,9 +14,8 @@ namespace MartinPosso_Authentication.Controllers
     {
         private ShopDB db = new ShopDB();
 
-        [Authorize(Roles = "admin")]
-
         // GET: Products
+        [Authorize(Roles = "admin")]
         public ActionResult Index(string searchString, string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -28,7 +27,6 @@ namespace MartinPosso_Authentication.Controllers
                 products = products.Where(s => s.ProductName.StartsWith(searchString));
                 return View(products.ToList());
             }
-
             switch (sortOrder)
             {
                 case "name_desc":
@@ -78,7 +76,7 @@ namespace MartinPosso_Authentication.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public ActionResult Create([Bind(Include = "ProductID,ProductName,Description,Stock,ProductCode,SupplierID,CategoryID,Image")] Product product)
+        public ActionResult Create([Bind(Include = "ProductID,ProductName,Description,Stock,ProductCode,SupplierID,CategoryID,Image,Price")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -116,7 +114,7 @@ namespace MartinPosso_Authentication.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public ActionResult Edit([Bind(Include = "ProductID,ProductName,Description,Stock,ProductCode,SupplierID,CategoryID,Image")] Product product)
+        public ActionResult Edit([Bind(Include = "ProductID,ProductName,Description,Stock,ProductCode,SupplierID,CategoryID,Image,Price")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -129,8 +127,8 @@ namespace MartinPosso_Authentication.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "admin")]
         // GET: Products/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
